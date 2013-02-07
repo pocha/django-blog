@@ -26,7 +26,7 @@ This will create a folder *django_blog* with the following structure. Here, *dja
 <del>A Django project is a collection of settings for an instance of Django, including database configuration, Django-specific options and application-specific settings.</del>
 > No useful information
 
- django_blog	
+    django_blog	
 	├── django_blog
 	│   ├── __init__.py
 	│   ├── settings.py
