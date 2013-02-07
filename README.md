@@ -95,9 +95,10 @@ This will create a `home` view for our application that simply returns **Hello W
 Let's see how this works
 
 1. First, we import the class HttpResponse, which lives in the django.http module. We need to import this class because it’s used later in our code.
-> django.http module ? What is module at the first place ?
 2. We define `home` function, or `home view`. We can name this anything we want. As long as it is a valid python identifier. Every view function takes *request* as first parameter which contains details about the HTTP Request.
 3. We call HttpResponse function to display our **Hello World** message.
+
+> django.http module ? What is module at the first place ?
 > This HttpResponse is a function different from the HttpResponse class right ?
 
 Now that our view is ready, we need to tell our django project when to serve this view. If you have been following closely, you can guess. We do this in `django_blog/urls.py`
