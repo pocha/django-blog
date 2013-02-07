@@ -45,6 +45,7 @@ These files are:
 - **django_blog/wsgi.py:** An entry-point for WSGI-compatible webservers to serve your project. This will be used, once we want to deploy our application for production. For now, we'll ignore it.
 
 > Feb 7 - import word is kind of alien. What exactly import does needs explanation
+> What is WSGI ?
 
 Now, that our project is setup. We can test it by running a development server.
 
@@ -60,11 +61,12 @@ This will run a development server on port 8000. If you preview your app now you
 In this module, we'll create our first Django Application that will show a **Hello World** message instead of Weclome to Django.
 
 To create our application, we'll run this command inside our Django project in the console.
-
+	cd django_blog
 	python manage.py startapp blog
+
 This will create a folder *blog* inside our project. The new file structure should look something like this.
 
-
+    django_blog
 	├── blog
 	│   ├── __init__.py
 	│   ├── models.py
@@ -93,14 +95,17 @@ This will create a `home` view for our application that simply returns **Hello W
 Let's see how this works
 
 1. First, we import the class HttpResponse, which lives in the django.http module. We need to import this class because it’s used later in our code.
+> django.http module ? What is module at the first place ?
 2. We define `home` function, or `home view`. We can name this anything we want. As long as it is a valid python identifier. Every view function takes *request* as first parameter which contains details about the HTTP Request.
-3. We call HTTPResponse function to display our **Hello World** message.
+3. We call HttpResponse function to display our **Hello World** message.
+> This HttpResponse is a function different from the HttpResponse class right ?
 
-Now that our view is ready, we need to tell our our django project when to serve this view. If you have been following closely, you can guess. We do this in `django_blog/urls.py`
+Now that our view is ready, we need to tell our django project when to serve this view. If you have been following closely, you can guess. We do this in `django_blog/urls.py`
 
 Now, add the following python code below the comment on line 8
 
 	url(r'^$', 'blog.views.home'),
+> The url mapping like r'^$' needs explanation. blog.views.home is suggestive though.
 
 This shall be enough to tell our django project, to serve the home view in blog application when we visit the root url of the project.
 
@@ -111,3 +116,5 @@ You can test the same by running development server again.
 That is it, preview your application and you shall see the **Hello World** message.
 
 That's it for this module. We'll get into models and get started with blog views in the next module.
+> I am able to run the app, but my feedback is - isnt there an easier way to do the hello world. In Rails, we put a html file in public/ & simply render it to show hello world. 
+> Also, lets complete the blog app & release. 
