@@ -42,7 +42,7 @@ These files are:
 - **django_blog/urls.py:** It handles the URL declarations for the Django project. This will simply map URL patterns (simple regular expressions) to Python functions (your views).
 - **django_blog/wsgi.py:** An entry-point for WSGI-compatible webservers to serve your project. This will be used, once we want to deploy our application for production. For now, we'll ignore it.
 
-_Feb 7 - import word is kind of alien. What exactly import does needs explanation_
+> Feb 7 - import word is kind of alien. What exactly import does needs explanation
 
 Now, that our project is setup. We can test it by running a development server.
 
