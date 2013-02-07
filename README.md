@@ -23,7 +23,7 @@ To create your first Django project, goto the console and run
 	
 This will create a folder *django_blog* with the following structure. Here, *django_blog* is the name of our project.
 
-<strike>A Django project is a collection of settings for an instance of Django, including database configuration, Django-specific options and application-specific settings.</strike>
+<del>A Django project is a collection of settings for an instance of Django, including database configuration, Django-specific options and application-specific settings.</del>
 	
 	├── django_blog
 	│   ├── __init__.py
