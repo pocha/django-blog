@@ -37,7 +37,7 @@ These files are:
 - **The outer django_blog/** directory is just a container for your project. Its name doesn't matter to Django; you can rename it to anything you like.	
 - **manage.py:** A command-line utility that lets you interact with this Django project in various ways. It is a thin wrapper around django-admin.py. So inside a Django project you can run manage.py instead of django-admin.py.
 - **The inner django_blog/** directory is the actual Python package for your project. Its name is the Python package name you'll need to use to import anything inside it (e.g. import mysite.settings).
-<p style="background-color:yellow">import word is kind of alient. It needs some explaination</p>
+> import word is kind of alien. What exactly import does
 - **django_blog/__init__.py:** An empty file that tells Python that this directory should be considered a Python package.
 -  **django_blog/settings.py:** Settings/configuration for this Django project. Django settings will tell you all about how settings work.
 - **django_blog/urls.py:** It handles the URL declarations for the Django project. This will simply map URL patterns (simple regular expressions) to Python functions (your views).
