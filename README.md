@@ -432,8 +432,60 @@ and checkout all the blogs you've written so far by accessing http://localhost:8
 
 ## Lesson 7 - Writing more views and simplifying urls
 
-Simplifying the urls
+Django provides few shortcut functions to simplify writing of views. Instead of using the loader.get_template 
+function, creating a separate Context object and rendering the template, you can use a shortcut 
+function- render_to_response. Modify the index view as shown below.
 
+	from django.http import HttpResponse
+	from blog.models import BlogPost
+	from django.shortcuts import render_to_response
+
+	def index(request):
+		blogs = BlogPost.objects.all().order_by('-posted_date')
+		return render_to_response('index.html', {'blogs': blogs})
+		
+This works exactly as before with less code to write.
+
+We can add few more views to access the blogs as publised yearwise, monthwise and datewise.
+Let's do that. Add the following views to django-blog/blog/views.py.
+
+	def yearwise(request, year):
+		blogs = BlogPost.objects.filter(posted_date__year=year).order_by('-posted_date')
+		return render_to_response('index.html', {'blogs': blogs})
+
+	def monthwise(request, year, month):
+		blogs = BlogPost.objects.filter(posted_date__year=year, posted_date__month=month).order_by('-posted_date')
+		return render_to_response('index.html', {'blogs': blogs})
+
+	def datewise(request, year, month, date):
+		blogs = BlogPost.objects.filter(posted_date__year=year, posted_date__month=month, posted_date__date=date).order_by('-posted_date')
+		return render_to_response('index.html', {'blogs': blogs})
+	
+
+The function BlogPost.objects.filter retrives only those blogs from the database for which 
+the filter criterion matches. In function yearwise, we filter only those blogs whose year in posted_date matches
+the year variable as provided by the user. We'll see how the user can provide the year parameter through url, later.
+Similarly, the monthwise and datewise views return the blogs further filtered by month and date, respectively.
+Now lets configure the urls throught which we will access these views. Modify the django-blog/django_blog/urls.py
+and add the following lines to it.
+
+	# Uncomment the next line to enable the admin:
+	url(r'^admin/', include(admin.site.urls)),
+	url(r'^django_blog/','blog.views.index'),
+	url(r'^django_blog/(?P<year>\d+)/$', 'blog.views.yearwise'),
+	url(r'^django_blog/(?P<year>\d+)/(?P<month>\d+)/$', 'blog.views.monthwise'),
+	url(r'^django_blog/(?P<year>\d+)/(?P<month>\d+)/(?P<date>\d+)/$', 'blog.views.datewise'),	 
+	
+
+Here we are using a bunch of regular expressions to call appropriate function for specific urls.
+Eg. In regular expression r'^django_blog/(?P<year>\d+)/$', the special characters, ^ and $ signify the start and 
+end of the string respectively. \d+ matches one or more sequence of numbers. The expression ?P<year> just tells
+django to pass this particular matched sequence (\d+) while calling the corresponding view function.
+Hence, a call to url like http://localhost:8000/django_blog/2013 would match this particular regular expression
+and the view blog.views.yearwise will be called and passed a year parameter. The same is true for other two views. 
+
+Django has flexible architecture and it allows each app to manages most of important stuff related 
+to that app. 
 
 
 
