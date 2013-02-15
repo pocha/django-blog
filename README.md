@@ -100,10 +100,11 @@ the static folder such that the directory structure now looks like,
 	└── manage.py
 	
 Edit index.html and add the following html content to it
-	&lt!DOCTYPE html&gt
-	&lthtml&gt
+
+	<!DOCTYPE html>
+	<html>
 	Hello world!!
-	&lt/html&gt
+	</html>
 	
 Edit the django_blog/django_blog/setting.py file and add the static directory to STATICFILES_DIRS which is 
 django's list of directories which it searches to serve static files. Make sure that the STATIC_URL variable
