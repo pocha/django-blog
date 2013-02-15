@@ -14,7 +14,7 @@ However, if you want to work on your local machine you can follow the [instuctio
 
 Once you have installed Django, *django-admin.py* will be added to your system path.
 
-*django-admin.py *is Django’s command-line utility for administrative tasks.
+*django-admin.py* is Django’s command-line utility for administrative tasks.
 It will be used to create Django projects, handle database operations, run development server and do several other tasks which we'll dive into later modules.
 
 To create your first Django project, goto the console and run
@@ -42,7 +42,7 @@ These files are:
 - **django_blog/urls.py:** It handles the URL declarations for the Django project. This will simply map URL patterns (simple regular expressions) to Python functions (your views).
 - **django_blog/wsgi.py:** An entry-point for WSGI-compatible webservers to serve your project. This will be used, once we want to deploy our application for production. For now, we'll ignore it.
 
-[_import_ is a python command to access symbols within a script]
+[ *import* is a python command to access symbols within a script]
 
 Now, that our project is setup. We can test it by running a development server.
 
