@@ -23,8 +23,6 @@ To create your first Django project, goto the console and run
 	
 This will create a folder *django_blog* with the following structure. Here, *django_blog* is the name of our project.
 
-<del>A Django project is a collection of settings for an instance of Django, including database configuration, Django-specific options and application-specific settings.</del>
-> No useful information
 
     django_blog	
 	├── django_blog
@@ -44,8 +42,7 @@ These files are:
 - **django_blog/urls.py:** It handles the URL declarations for the Django project. This will simply map URL patterns (simple regular expressions) to Python functions (your views).
 - **django_blog/wsgi.py:** An entry-point for WSGI-compatible webservers to serve your project. This will be used, once we want to deploy our application for production. For now, we'll ignore it.
 
-> Feb 7 - import word is kind of alien. What exactly import does needs explanation
-> What is WSGI ?
+[_import_ is a python command to access symbols within a script]
 
 Now, that our project is setup. We can test it by running a development server.
 
@@ -479,8 +476,8 @@ and add the following lines to it.
 	
 
 Here we are using a bunch of regular expressions to call appropriate function for specific urls.
-Eg. In regular expression r'^django_blog/(?P<year>\d+)/$', the special characters, ^ and $ signify the start and 
-end of the string respectively. \d+ matches one or more sequence of numbers. The expression ?P<year> just tells
+Eg. In regular expression **r'^django_blog/(?P<year>\d+)/$'**, the special characters, *^* and *$* signify the start and 
+end of the string respectively. **\d+** matches one or more sequence of numbers. The expression **?P<year>** just tells
 django to pass this particular matched sequence (\d+) while calling the corresponding view function.
 Hence, a call to url like http://localhost:8000/django_blog/2013 would match this particular regular expression
 and the view blog.views.yearwise will be called and passed a year parameter. The same is true for other two views. 
