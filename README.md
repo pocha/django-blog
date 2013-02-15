@@ -100,10 +100,10 @@ the static folder such that the directory structure now looks like,
 	└── manage.py
 	
 Edit index.html and add the following html content to it
-	<!DOCTYPE html>
-	<html>
+	&lt!DOCTYPE html&gt
+	&lthtml&gt
 	Hello world!!
-	</html>
+	&lt/html&gt
 	
 Edit the django_blog/django_blog/setting.py file and add the static directory to STATICFILES_DIRS which is 
 django's list of directories which it searches to serve static files. Make sure that the STATIC_URL variable
@@ -136,5 +136,137 @@ That is it, preview your application and you shall see the **Hello World** messa
 Note that you are accessing the file by adding static/ in the url which tell django to serve static files.
 
 That's it for this module. We'll get into models and get started with blog views in the next module.
+
+## Lesson 3 - Configure database
+
+Django stores all the persistent information regarding the website, users and apps in a database.
+So you need to configure the database details in the django_blog/settings.py file. For the purpose of 
+this tutorial, we will use sqlite3 database which is a simple file-based database. Modify django_blog/settings.py and
+add the details to DATABASES variable as shown below. 
+
+	DATABASES = {
+		'default': {
+			'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+			'NAME': 'C:/workspace/django-blog/django_blog.db',       # Or path to database file if using sqlite3.
+			'USER': '',                      # Not used with sqlite3.
+			'PASSWORD': '',                  # Not used with sqlite3.
+			'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+			'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+		}
+	}
+
+Select ENGINE as django.db.backends.sqlite3. NAME should be the full path of the file which would be the actual
+database. If it doesn't already exist django will create it for you. sqlite3 doesn't require user and password so 
+you can leave that blank.
+To update the database with relevant application information run the following command
+
+	python manage.py syncdb
+
+	
+## Lesson 3 - Enable site admin interface
+
+Django provides inbuilt admin interface for every django powered site. This interface can be
+used to control application changes, add new users to the site, etc.
+The admin interface is bundled as a django app (just like our blog app we created above). To enable it,
+modify the django_blog/settings.py file and add django.contrib.admin to the list of installed apps by
+simply uncommenting the corresponding line in INSTALLED_APPS as shown below
+
+	INSTALLED_APPS = (
+		'django.contrib.auth',
+		'django.contrib.contenttypes',
+		'django.contrib.sessions',
+		'django.contrib.sites',
+		'django.contrib.messages',
+		'django.contrib.staticfiles',
+		# Uncomment the next line to enable the admin:
+		**'django.contrib.admin',**
+		# Uncomment the next line to enable admin documentation:
+		# 'django.contrib.admindocs',
+	)
+
+Now you would want to access the admin interface with a specific URL. To tell django, which URL should take 
+you to the admin page, you'll have to configure the django_blog/urls.py file. Uncomment the highlighted lines
+in django_blog/urls.py
+
+	from django.conf.urls import patterns, include, url
+
+	# Uncomment the next two lines to enable the admin:
+	**from django.contrib import admin**
+	**admin.autodiscover()**
+
+	urlpatterns = patterns('',
+		# Examples:
+		url(r'^$', 'blog.views.home'),
+		# url(r'^$', 'django_blog.views.home', name='home'),
+		# url(r'^django_blog/', include('django_blog.foo.urls')),
+
+		# Uncomment the admin/doc line below to enable admin documentation:
+		# url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+
+		# Uncomment the next line to enable the admin:
+		**url(r'^admin/', include(admin.site.urls)),**
+	)
+
+The line url(r'^admin/', include(admin.site.urls)) tells django that any url starting with admin/ should be handled
+by the admin.site module. [ A module is a python script which is also used by other scripts. ] 
+r'^admin/' is a regular expression (a special kind of string) which matches any string with a specific pattern.
+In this case, it would match any string starting with 'admin/'.
+To update the database with admin app related information, run
+	
+	python manage.py syncdb
+	
+You will be asked to create a superuser or admin account. Enter 'yes' and enter the username and password of your choice. 
+You will need this to access the admin webpage.
+
+	C:\workspace\django-blog>manage.py syncdb
+	Creating tables ...
+	Creating table auth_permission
+	Creating table auth_group_permissions
+	Creating table auth_group
+	Creating table auth_user_user_permissions
+	Creating table auth_user_groups
+	Creating table auth_user
+	Creating table django_content_type
+	Creating table django_session
+	Creating table django_site
+	Creating table django_admin_log
+
+	You just installed Django's auth system, which means you don't have any superuse
+	rs defined.
+	Would you like to create one now? (yes/no): yes
+	Username (leave blank to use 'swapnil'):
+	E-mail address: swapnil.st@gmail.com
+	Password:
+	Password (again):
+	Superuser created successfully.
+	Installing custom SQL ...
+	Installing indexes ...
+	Installed 0 object(s) from 0 fixture(s)
+
+That's it. Your admin app should now be enabled. Run the development server
+	
+	python manage.py runserver
+
+Try accessing it at http://localhost:8000/admin with username and password you just entered.
+
+## Lesson 4 - Creating models
+
+
+Write models
+Sync database
+
+Write URL
+
+## Lesson 5 - Write first blog
+
+
+## Lesson 2 - Writing views and configure urls
+
+Views in django are functions that typically return the output you see for a specific URL.
+All the relevant views for an app can reside in the apps's views.py file.
+Each URL is typically handled by a specific view function.
+
+
+
 
 
