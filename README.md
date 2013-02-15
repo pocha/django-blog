@@ -484,9 +484,7 @@ django to pass this particular matched sequence (\d+) while calling the correspo
 Hence, a call to url like http://localhost:8000/django_blog/2013 would match this particular regular expression
 and the view blog.views.yearwise will be called and passed a year parameter. The same is true for other two views. 
 
-Django has flexible architecture and it allows each app to manages most of important stuff related 
-to that app. 
-
+You app is now completely ready. Happy blogging!!
 
 
 

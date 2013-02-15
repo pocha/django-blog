@@ -1,0 +1,14 @@
+{% if blogs %}
+	{% for blog in blogs %}
+		<p>
+			<h2>{{blog.title}}</h2>
+			Date: {{blog.posted_date}}<br/>
+			<p>
+			{{blog.post}}
+			</p>
+			==================================
+		</p>
+	{% endfor %}
+{% else %}
+	<p>No blogs to show</p>
+{% endif %}
