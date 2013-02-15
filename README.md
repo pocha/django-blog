@@ -273,7 +273,7 @@ Update the database so that it is able to store BlogPost related information,
 	python manage.py syncdb
 	
 
-## Lesson 5 - Write first blog
+## Lesson 5 - Write your first blog
 
 To be able to write out first blog, we need to add the blog app to the list of installed apps.
 Modify django_blog/settings.py and add blog to the list of INSTALLED_APPS
@@ -291,7 +291,6 @@ Modify django_blog/settings.py and add blog to the list of INSTALLED_APPS
 		# 'django.contrib.admindocs',
 		**'blog',**
 	)
-
 
 	
 We will writing our blogs using the admin interface so we need to allow our app to be 
@@ -328,13 +327,112 @@ Modify django-blog/blog/models.py file and add a function __unicode__ to our Blo
 
 This will let django print the title of the blog while representing a particular blog post.
 Now, simply refresh the page (no need to restart the server), and you should be able to see the 
-title of the blog in place of *BlogPost object*.
+title of the blog in place of *BlogPost object*. Now you can add as many blog posts as you like.
 
-## Lesson 2 - Writing views and configure urls
+## Lesson 6 - Writing views and configure urls
 
-Views in django are functions that typically return the output you see for a specific URL.
-All the relevant views for an app can reside in the apps's views.py file.
-Each URL is typically handled by a specific view function.
+Now, we want our blogs to be read by others as well. In other words, we would want to
+be able to access them using specific urls. In django, each URL is typically handled by a single
+view function. Views in django are functions that return the output you see for a given URL.
+All the relevant views for an app can reside in the app's views.py file.
+
+Let's write the view functions which will display our blogs.
+In django-blog/blog/views.py, add the following code,
+
+	# Create your views here.
+	from django.http import HttpResponse
+	from blog.models import BlogPost
+	from django.template import Context, loader
+
+	def index(request):
+		blogs = BlogPost.objects.all().order_by('-posted_date')
+		t = loader.get_template('index.html')
+		c = Context({
+			'blogs' : blogs,
+		})
+		return HttpResponse(t.render(c))
+		
+The BlogPost.objects.all() function retrieves all the blog posts presents in the database. 
+The order_by('-posted_date') function sorts the list of blogs according to the date the were posted 
+with the most recent ones first. The loader.get_template function loads a template file named index.html.
+We'll talk more about template files later. We pass some information to the template in the form of Context 
+object for it to generate the actual html. Finally the view returns an HttpResponse object which contains 
+the html rendered by the template.
+
+The next step is to configure the url for which the index view would be called; similar to what we did 
+for the admin app. Modify django-blog/django_blog/urls.py and add the highlighted line,
+
+	urlpatterns = patterns('',
+		# Examples:
+		# url(r'^$', 'django_blog.views.home', name='home'),
+		# url(r'^django_blog/', include('django_blog.foo.urls')),
+
+		# Uncomment the admin/doc line below to enable admin documentation:
+		# url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+
+		# Uncomment the next line to enable the admin:
+		url(r'^admin/', include(admin.site.urls)),
+		**url(r'^django_blog/','blog.views.index'),**
+	)
+
+This will tell django to call the index view for all the urls starting with django_blog/.
+
+Next, we need to write the template file which will be returned by the index view and tell django where to find it.
+A template file is just an html file, the contents of which are generated dynamically. 
+It can contain python-like code with special syntax which helps in generating the actual html content.
+
+Create a directory **/django-blog/templates** and add it to the list of django's template directories.
+
+	TEMPLATE_DIRS = (
+		# Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+		# Always use forward slashes, even on Windows.
+		# Don't forget to use absolute paths, not relative paths.
+		'C:/workspace/django-blog/templates',
+	)
+
+Modify TEMPLATE_DIRS in django-blog/django_blog/settings.py as shown with the appropriate path for
+templates directory. (Don't forget to add the comma.)
+This allows django to search for template files in the templates directory.
+Create a template file index.html in django-blog/templates directory with the following contents.
+
+	{% if blogs %}
+		{% for blog in blogs %}
+			<p>
+				<h2>{{blog.title}}</h2>
+				Date: {{blog.posted_date}}<br/>
+				<p>
+				{{blog.post}}
+				</p>
+				==================================
+			</p>
+		{% endfor %}
+	{% else %}
+		<p>No blogs to show</p>
+	{% endif %}
+
+As you can see, the file contains python-like statement. Within the template we have access to
+all the variables which were passed to us by the view as Context object through the render function.
+As we did in the index function,
+	
+	t = loader.get_template('index.html')
+		c = Context({
+			'blogs' : blogs,
+		})
+		return HttpResponse(t.render(c))
+		
+Here we see that we pass a single variable blogs to the template's context, which we access within the
+templates {% if %} statement. We iterate over the list of blogs to render each blog in an html paragraph.
+Individual fields of a blog are accessed by "." operator. eg. blog.post
+
+Start the server,
+	
+	python manage.py runserver
+	
+and checkout all the blogs you've written so far by accessing http://localhost:8000/django_blog/
+
+## Lesson 7 - Writing more views and simplifying urls
+
+Simplifying the urls
 
 
 
