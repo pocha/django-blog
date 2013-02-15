@@ -81,41 +81,60 @@ This will create a folder *blog* inside our project. The new file structure shou
 	
 Each Django application will consist of *models.py, tests.py and views.py*. For this module we'll only be dealing with *views.py* which shall be used to serve the content of our application.
 
-Now open *views.py* for editing, replace its content with the following code
+To serve a simple static page from django, create a folder in djang_blog directory named static. Create a file named index.html inside
+the static folder such that the directory structure now looks like,
 
-	from django.http import HttpResponse
+    django_blog
+	├── blog
+	│   ├── __init__.py
+	│   ├── models.py
+	│   ├── tests.py
+	│   ├── views.py
+	├── django_blog
+	│   ├── __init__.py
+	│   ├── settings.py
+	│   ├── urls.py
+	│   ├── wsgi.py
+	├── static
+	│   ├── index.html
+	└── manage.py
+	
+Edit index.html and add the following html content to it
+	<!DOCTYPE html>
+	<html>
+	Hello world!!
+	</html>
+	
+Edit the django_blog/django_blog/setting.py file and add the static directory to STATICFILES_DIRS which is 
+django's list of directories which it searches to serve static files. Make sure that the STATIC_URL variable
+in settings.py is set to '/static/'
 
+	# URL prefix for static files.
+	# Example: "http://media.lawrence.com/static/"
+	STATIC_URL = '/static/'
 
-	def home(request):
-        return HttpResponse('<h1>Hello World</h1>')
-    
+	# Additional locations of static files
+	STATICFILES_DIRS = (
+		# Put strings here, like "/home/html/static" or "C:/www/django/static".
+		# Always use forward slashes, even on Windows.
+		# Don't forget to use absolute paths, not relative paths.
+		'C:/workspace/django-blog/static',
+	)
 
-This will create a `home` view for our application that simply returns **Hello World**.
+If STATICFILES_DIRS contains a single location as shown above, don't for to add a comma(,) at the end as shown.
+[STATICFILES_DIRS is python tuple datatype and the way to declare a tuple with a single element is to add a comma after it.]
 
-Let's see how this works
-
-1. First, we import the class HttpResponse, which lives in the django.http module. We need to import this class because it’s used later in our code.
-2. We define `home` function, or `home view`. We can name this anything we want. As long as it is a valid python identifier. Every view function takes *request* as first parameter which contains details about the HTTP Request.
-3. We call HttpResponse function to display our **Hello World** message.
-
-> django.http module ? What is module at the first place ?
-> This HttpResponse is a function different from the HttpResponse class right ?
-
-Now that our view is ready, we need to tell our django project when to serve this view. If you have been following closely, you can guess. We do this in `django_blog/urls.py`
-
-Now, add the following python code below the comment on line 8
-
-	url(r'^$', 'blog.views.home'),
-> The url mapping like r'^$' needs explanation. blog.views.home is suggestive though.
-
-This shall be enough to tell our django project, to serve the home view in blog application when we visit the root url of the project.
+This shall be enough to tell our django project, to serve the static files from django_blog/static directory.
 
 You can test the same by running development server again.
 
 	python manage.py runserver
 
+Enter location http://localhost:8000/static/index.html
+
 That is it, preview your application and you shall see the **Hello World** message.
+Note that you are accessing the file by adding static/ in the url which tell django to serve static files.
 
 That's it for this module. We'll get into models and get started with blog views in the next module.
-> I am able to run the app, but my feedback is - isnt there an easier way to do the hello world. In Rails, we put a html file in public/ & simply render it to show hello world. 
-> Also, lets complete the blog app & release. 
+
+
