@@ -206,9 +206,9 @@ in django_blog/urls.py
 		**url(r'^admin/', include(admin.site.urls)),**
 	)
 
-The line url(r'^admin/', include(admin.site.urls)) tells django that any url starting with admin/ should be handled
+The line `url(r'^admin/', include(admin.site.urls))` tells django that any url starting with admin/ should be handled
 by the admin.site module. [ A module is a python script which is also used by other scripts. ] 
-r'^admin/' is a regular expression (a special kind of string) which matches any string with a specific pattern.
+`r'^admin/'` is a regular expression (a special kind of string) which matches any string with a specific pattern.
 In this case, it would match any string starting with 'admin/'.
 To update the database with admin app related information, run
 	
@@ -419,8 +419,8 @@ As we did in the index function,
 		return HttpResponse(t.render(c))
 		
 Here we see that we pass a single variable blogs to the template's context, which we access within the
-templates {% if %} statement. We iterate over the list of blogs to render each blog in an html paragraph.
-Individual fields of a blog are accessed by "." operator. eg. blog.post
+templates `{% if %}` statement. We iterate over the list of blogs to render each blog in an html paragraph.
+Individual fields of a blog are accessed by "." operator. eg. `blog.post`
 
 Start the server,
 	
@@ -432,7 +432,7 @@ and checkout all the blogs you've written so far by accessing http://localhost:8
 
 Django provides few shortcut functions to simplify writing of views. Instead of using the loader.get_template 
 function, creating a separate Context object and rendering the template, you can use a shortcut 
-function- render_to_response. Modify the index view as shown below.
+function- `render_to_response`. Modify the index view as shown below.
 
 	from django.http import HttpResponse
 	from blog.models import BlogPost
@@ -479,7 +479,7 @@ Here we are using a bunch of regular expressions to call appropriate function fo
 Eg. In regular expression **r'^django_blog/(?P<year>\d+)/$'**, the special characters, *^* and *$* signify the start and 
 end of the string respectively. **\d+** matches one or more sequence of numbers. The expression **?P<year>** just tells
 django to pass this particular matched sequence (\d+) while calling the corresponding view function.
-Hence, a call to url like http://localhost:8000/django_blog/2013 would match this particular regular expression
+Hence, a call to url like *http://localhost:8000/django_blog/2013* would match this particular regular expression
 and the view blog.views.yearwise will be called and passed a year parameter. The same is true for other two views. 
 
 You app is now completely ready. Happy blogging!!
