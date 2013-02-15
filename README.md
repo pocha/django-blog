@@ -293,6 +293,43 @@ Modify django_blog/settings.py and add blog to the list of INSTALLED_APPS
 	)
 
 
+	
+We will writing our blogs using the admin interface so we need to allow our app to be 
+accessible by the admin. In order to do this, create a new file admin.py in django-blog/blog directory.
+Add the following code to the admin.py file.
+
+	from blog.models import BlogPost
+	from django.contrib import admin
+
+	admin.site.register(BlogPost)
+
+	
+Update the database and run the development server,
+
+	python manage.py syncdb
+	python manage.py runsever
+	
+Access the admin site by visiting http://localhost:8000/admin/
+
+Now you can see the Blog posts model in the Blog app on the admin page.
+Click **+Add** besides it, to add a new blog. Enter the blog contents and save it.
+You should be able to see the newly created blog post in the list of blogs.
+But it says *BlogPost object*. That is not very helpful in distinguishing different posts.
+Let's change that. 
+Modify django-blog/blog/models.py file and add a function __unicode__ to our BlogPost model,
+
+	class BlogPost(models.Model):
+		title = models.CharField(max_length=500)
+		post = models.TextField()
+		posted_date = models.DateTimeField('date posted')
+		
+		def __unicode__(self):
+			return self.title
+
+This will let django print the title of the blog while representing a particular blog post.
+Now, simply refresh the page (no need to restart the server), and you should be able to see the 
+title of the blog in place of *BlogPost object*.
+
 ## Lesson 2 - Writing views and configure urls
 
 Views in django are functions that typically return the output you see for a specific URL.
