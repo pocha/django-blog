@@ -140,6 +140,7 @@ That's it for this module. We'll get into models and get started with blog views
 ## Lesson 3 - Configure database
 
 Django stores all the persistent information regarding the website, users and apps in a database.
+Eg. the blogs that we will write will be stored in this database.
 So you need to configure the database details in the django_blog/settings.py file. For the purpose of 
 this tutorial, we will use sqlite3 database which is a simple file-based database. Modify django_blog/settings.py and
 add the details to DATABASES variable as shown below. 
@@ -216,7 +217,7 @@ To update the database with admin app related information, run
 	python manage.py syncdb
 	
 You will be asked to create a superuser or admin account. Enter 'yes' and enter the username and password of your choice. 
-You will need this to access the admin webpage.
+You will need this to access the admin webpage. 
 
 	C:\workspace\django-blog>manage.py syncdb
 	Creating tables ...
@@ -251,13 +252,45 @@ Try accessing it at http://localhost:8000/admin with username and password you j
 
 ## Lesson 4 - Creating models
 
+Lets create models for our blog application. Models are essentially database tables which every app
+uses to save app-specific information. The blog application will require just one model- BlogPost.
+Edit django_blog/blog/models.py and add the following code so that it looks like, 
 
-Write models
-Sync database
+	from django.db import models
 
-Write URL
+	# Create your models here.
+	class BlogPost(models.Model):
+		title = models.CharField(max_length=500)
+		post = models.TextField()
+		posted_date = models.DateTimeField('date posted')
+
+What we are telling django here, is that we want every BlogPost to have a title, a post and posted_date fields.
+A title would be a bunch of character (CharField, limited to maximum size of 500). A Post would be bunch of text (TextField)and 
+posted_date, (DateTimeField) a date and time field.
+
+Update the database so that it is able to store BlogPost related information,
+
+	python manage.py syncdb
+	
 
 ## Lesson 5 - Write first blog
+
+To be able to write out first blog, we need to add the blog app to the list of installed apps.
+Modify django_blog/settings.py and add blog to the list of INSTALLED_APPS
+
+	INSTALLED_APPS = (
+		'django.contrib.auth',
+		'django.contrib.contenttypes',
+		'django.contrib.sessions',
+		'django.contrib.sites',
+		'django.contrib.messages',
+		'django.contrib.staticfiles',
+		# Uncomment the next line to enable the admin:
+		'django.contrib.admin',
+		# Uncomment the next line to enable admin documentation:
+		# 'django.contrib.admindocs',
+		**'blog',**
+	)
 
 
 ## Lesson 2 - Writing views and configure urls
