@@ -21,7 +21,7 @@ To create your first Django project, run the following command
 
 ``Terminal``
 
-	django-admin.py startproject django_blog
+	$ django-admin.py startproject django_blog
 	
 This will create a folder *django_blog* with the following structure. Here, *django_blog* is the name of our project.
 
