@@ -17,8 +17,8 @@ Once you have installed Django, *django-admin.py* will be added to your system p
 *django-admin.py* is Django’s command-line utility for administrative tasks.
 It will be used to create Django projects, handle database operations, run development server and do several other tasks which we'll dive into later modules.
 
-To create your first Django project, goto the console and run
-
+To create your first Django project, run the following command
+``Terminal``
 	django-admin.py startproject django_blog
 	
 This will create a folder *django_blog* with the following structure. Here, *django_blog* is the name of our project.
