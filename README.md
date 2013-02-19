@@ -45,6 +45,7 @@ These files are:
 - **wsgi.py:** This will be used, once we want to deploy our application for production. For now, we'll ignore it.
 
 As mentioned in point 1, lets rename **outer django_blog** directory to django-tutorial-blog-app to avoid confusion
+
 ``Terminal``
 
 	~/$ mv django_blog django-tutorial-blog-app
@@ -55,6 +56,7 @@ Now, that our project is setup. We can test it by running a development server.
 The Django development server is a built-in, lightweight Web server you can use while developing your site. It’s included with Django so you can develop your site rapidly, without having to deal with configuring your production server (e.g., Apache) until you’re ready for production
 
 Get inside the Django project & start the server
+
 ``Terminal``
 
 	~/$ cd django-tutorial-blog-app
@@ -72,6 +74,7 @@ In this module, we'll create our first Django Application that will show a **Hel
 We will show **Hello World** by creating a static page. For that, we do not need to use any of the files generated above. 
 
 To serve a simple static page from django, create a folder named static. Create a file named index.html inside the static folder.
+
 ``Terminal``
 
 	~/django-tutorial-blog-app$ mkdir static
@@ -90,6 +93,7 @@ The directory structure now looks like,
 	└── manage.py
 	
 Edit index.html and add the following html content to it
+
 ``static/index.html``
 
 	<!DOCTYPE html>
@@ -99,6 +103,7 @@ Edit index.html and add the following html content to it
 	
 Edit the *django-tutorial-blog-app/settings.py* file and add the static directory to **STATICFILES_DIRS** which is django's list of directories which it searches to serve static files. 
 You need absolute path to the static directory to put inside **STATICFILES_DIRS**
+
 ``Terminal``
 	
 	~/django-tutorial-blog-app$ pwd
@@ -124,6 +129,8 @@ You will see something like */home/user_1/django-tutorial-blog-app*. The absolut
 [**STATICFILES_DIRS** is python tuple datatype and the way to declare a tuple with a single element is to add a comma after it.]
 
 You can test the settngs so far by running development server again.
+
+``Terminal``
 
 	~/django-tutorial-blog-app$ python manage.py runserver
 
