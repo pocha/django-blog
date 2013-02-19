@@ -21,7 +21,7 @@ To create your first Django project, run the following command
 
 ``Terminal``
 
-	$ django-admin.py startproject django_blog
+	~/$ django-admin.py startproject django_blog
 	
 This will create a folder *django_blog* with the following structure.
 
@@ -42,18 +42,20 @@ These files are:
 - **__init__.py:** An empty file that tells Python that this directory should be considered a Python package.
 - **settings.py:** Django can import apps (what are apps, we will see later). This file contains the list of the apps. The file also contain paths to static directory & similar other configurations.
 - **urls.py:** The file contains mapping of URLs to appropriate Django view (as usual, Django views are introduced later).
-- **django_blog/wsgi.py:** This will be used, once we want to deploy our application for production. For now, we'll ignore it.
+- **wsgi.py:** This will be used, once we want to deploy our application for production. For now, we'll ignore it.
 
 
 Now, that our project is setup. We can test it by running a development server.
 
 The Django development server is a built-in, lightweight Web server you can use while developing your site. It’s included with Django so you can develop your site rapidly, without having to deal with configuring your production server (e.g., Apache) until you’re ready for production
 
-Run this command inside Django project
+Get inside the Django project & start the server
+``Terminal``
 
-	python manage.py runserver
+	~/$ cd django_blog
+	~/django_blog$ python manage.py runserver
 	
-This will run a development server on port 8000, if you have Django installed on your PC. In our case, simply Reload the **App Output** tab.
+This will run a development server on port 8000, if you have Django installed on your PC. You can view the app at *http://localhost:8000*.  In our case, simply Reload the **App Output** tab.
 
 If everything goes right, you'll see a **"Welcome to Django"** page, in pleasant, light-blue pastel. It worked!
 
