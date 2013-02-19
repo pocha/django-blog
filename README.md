@@ -161,6 +161,7 @@ To create our application, we are going to use manage.py again.
 
 This will create a folder *blog* inside our project. The new file structure should look something like this.
 
+
    django-tutorial-blog-app
 	├── blog
 	│   ├── __init__.py
@@ -173,6 +174,7 @@ This will create a folder *blog* inside our project. The new file structure shou
 	│   ├── urls.py
 	│   ├── wsgi.py
 	└── manage.py
+
 
 Each Django application will consist of *models.py, tests.py and views.py*. In this lesson, we'll only be dealing with *views.py* which shall be used to serve the content of our application.
 
@@ -222,15 +224,33 @@ That is it, preview your application at http://localhost:8000/ (or simply go to 
 
 We need a database to store the blogs. 
 
-We need to configure the database details in the *django_blog/settings.py* file. For the purpose of this tutorial, we will use sqlite3 database which is a simple file-based database. Modify *django_blog/settings.py* at around line 12. Look for *DATABASES* in the file. Replace the striked out line with the line after it.  
+We need to configure the database details in the *django_blog/settings.py* file. For the purpose of this tutorial, we will use sqlite3 database which is a simple file-based database. Modify *django_blog/settings.py* at around line 12. Look for *DATABASES* in the file. 
+
 
 ``django_blog/settings.py``
 
+<table>
+	<tr>
+		<td>
+Original Code
+
 	DATABASES = {
 		'default': {
-			<del>'ENGINE': 'django.db.backends', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.</del>
+			'ENGINE': 'django.db.backends', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+			'NAME': '',       				# Or path to database file if using sqlite3.
+			'USER': '',                      # Not used with sqlite3.
+			'PASSWORD': '',                  # Not used with sqlite3.
+			'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+			'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+		}
+	}
+		</td>
+		<td>
+Modified Code
+
+	DATABASES = {
+		'default': {
 			'ENGINE': 'django.db.backends.sqlite3',
-			<del>'NAME': '',       					 # Or path to database file if using sqlite3.</del>
 			'NAME': '/home/user_1/django-tutorial-blog-app/django-blog/django_blog.db',
 			'USER': '',                      # Not used with sqlite3.
 			'PASSWORD': '',                  # Not used with sqlite3.
@@ -238,6 +258,12 @@ We need to configure the database details in the *django_blog/settings.py* file.
 			'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
 		}
 	}
+
+		</td>
+	</tr>
+</table>
+
+Since this is NOT Pyton syntax, you do not have to worry about the indentation/spaces. 
 
 We selected ENGINE as django.db.backends.sqlite3. NAME should be the full path of the file which would be the actual database.  If it doesn't already exist django will create it for you. 
 
