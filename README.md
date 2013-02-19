@@ -1,6 +1,6 @@
 #Getting Started with Django
 
-In this module, we will create our first Django Application that will display **Hello World**
+In this tutorial, we will create our first Django Application. It will be a blog creating on Django framework.
 
 ## Lesson 0 - Installing Django
 
