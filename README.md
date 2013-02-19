@@ -162,7 +162,7 @@ To create our application, we are going to use manage.py again.
 This will create a folder *blog* inside our project. The new file structure should look something like this.
 
 
-   django-tutorial-blog-app
+    django-tutorial-blog-app
 	├── blog
 	│   ├── __init__.py
 	│   ├── models.py
@@ -256,7 +256,7 @@ Update it as
 		}
 	}
 
-Since this is NOT Pyton syntax, you do not have to worry about the indentation/spaces. 
+Since this is NOT Python syntax, you do not have to worry about the indentation/spaces. 
 
 We selected ENGINE as django.db.backends.sqlite3. NAME should be the full path of the file which would be the actual database.  If it doesn't already exist django will create it for you. 
 
