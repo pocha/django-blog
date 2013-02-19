@@ -226,13 +226,9 @@ We need a database to store the blogs.
 
 We need to configure the database details in the *django_blog/settings.py* file. For the purpose of this tutorial, we will use sqlite3 database which is a simple file-based database. Modify *django_blog/settings.py* at around line 12. Look for *DATABASES* in the file. 
 
+Before update the code looks as below 
 
 ``django_blog/settings.py``
-
-<table>
-	<tr>
-		<td>
-Original Code
 
 	DATABASES = {
 		'default': {
@@ -244,9 +240,10 @@ Original Code
 			'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
 		}
 	}
-		</td>
-		<td>
-Modified Code
+
+Update it as 
+
+``django_blog/settings.py``
 
 	DATABASES = {
 		'default': {
@@ -258,10 +255,6 @@ Modified Code
 			'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
 		}
 	}
-
-		</td>
-	</tr>
-</table>
 
 Since this is NOT Pyton syntax, you do not have to worry about the indentation/spaces. 
 
