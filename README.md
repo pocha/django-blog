@@ -39,7 +39,7 @@ These files are:
 - **The outer django_blog/** directory is just a container for your project. Its name doesn't matter to Django; you can rename it to anything you like. 
 - **manage.py:** A command-line utility that lets you interact with this Django project in various ways. It is a thin wrapper around django-admin.py. So inside a Django project you run ``python manage.py <command>`` instead of ``django-admin.py <command>``.
 - **The inner django_blog/** directory is the actual Python package for your project. Its name is the Python package name you'll use to import modules in your main app(e.g. ``from django_blog import mysite.settings``). What are modules, we will see shortly. 
-- **__init__.py:** An empty file that tells Python that this directory should be considered a Python package.
+- **\_\_init\_\_.py:** An empty file that tells Python that this directory should be considered a Python package.
 - **settings.py:** Django can import apps (what are apps, we will see later). This file contains the list of the apps. The file also contain paths to static directory & similar other configurations.
 - **urls.py:** The file contains mapping of URLs to appropriate Django view (as usual, Django views are introduced later).
 - **wsgi.py:** This will be used, once we want to deploy our application for production. For now, we'll ignore it.
@@ -62,7 +62,7 @@ Get inside the Django project & start the server
 	~/$ cd django-tutorial-blog-app
 	~/django-tutorial-blog-app$ python manage.py runserver
 	
-This will run a development server on port 8000, if you have Django installed on your PC. You can view the app at *http://localhost:8000*.  In our case, simply Reload the **App Output** tab.
+``python manage.py runserver`` will run a development server on port 8000, if you have Django installed on your PC. You can view the app at *http://localhost:8000*. Inside Codelearn Playground, simply Reload the **App Output** tab.
 
 If everything goes right, you'll see a **"Welcome to Django"** page, in pleasant, light-blue pastel. It worked!
 
@@ -79,6 +79,8 @@ To serve a simple static page from django, create a folder named static. Create 
 
 	~/django-tutorial-blog-app$ mkdir static
 	~/django-tutorial-blog-app$ touch static/index.html
+
+``mkdir`` & ``touch`` are linux commands. ``mkdir`` creates a directory while ``touch`` creates a file.
 
 The directory structure now looks like,
 
@@ -101,17 +103,23 @@ Edit index.html and add the following html content to it
 	Hello world!!
 	</html>
 	
-Edit the *django-tutorial-blog-app/settings.py* file and add the static directory to **STATICFILES_DIRS** which is django's list of directories which it searches to serve static files. 
-You need absolute path to the static directory to put inside **STATICFILES_DIRS**
+Edit the *django_blog/settings.py* file and add the static directory to **STATICFILES_DIRS** which is django's list of directories which it searches to serve static files. 
+
+You need absolute path to the static directory to put inside **STATICFILES_DIRS**. Below is the step to get the absolute path.
 
 ``Terminal``
 	
 	~/django-tutorial-blog-app$ pwd
+	/home/user_1/django-tutorial-blog-app
+	~/django-tutorial-blog-app$
 
-You will see something like */home/user_1/django-tutorial-blog-app*. The absolute path to the static directory will be */home/user_1/django-tutorial-blog-app/static*.
+The output in my case is */home/user_1/django-tutorial-blog-app*. The absolute path to the static directory will be */home/user_1/django-tutorial-blog-app/static*. **Note - the path will be different for you**
+
 ``pwd`` is a linux command that gets you the path of your current directory. 
 
-``django-tutorial-blog-app/settings.py``
+Edit *django_blog/settings.py* & add the static directory path on line 70.
+
+``django_blog/settings.py``
 
 	# URL prefix for static files.
 	# Example: "http://media.lawrence.com/static/"
@@ -122,13 +130,14 @@ You will see something like */home/user_1/django-tutorial-blog-app*. The absolut
 		# Put strings here, like "/home/html/static" or "C:/www/django/static".
 		# Always use forward slashes, even on Windows.
 		# Don't forget to use absolute paths, not relative paths.
+		### ADD BELOW LINE ###
 		'/home/user_1/django-tutorial-blog-app/static',
 	)
 
 *Even if STATICFILES_DIRS contains a single location as shown above, don't forget to add a comma(,) at the end as shown.*
 [**STATICFILES_DIRS** is python tuple datatype and the way to declare a tuple with a single element is to add a comma after it.]
 
-You can test the settngs so far by running development server again.
+You can test the settings so far by running development server again.
 
 ``Terminal``
 
@@ -136,22 +145,93 @@ You can test the settngs so far by running development server again.
 
 Enter location *http://localhost:8000/static/index.html* in your PC to view the page. Here you can simply enter *static/index.html* in the input box inside **App Output** & hit 'Go' to view the output. 
 
-Note that you are accessing the file by adding static/ in the url which tell django to serve static files.
+Note that you are accessing the file by adding static/ in the URL which tells django to serve static files.
 
 > Dont forget to shut down your server by pressing __ once you are done
 
-## Lesson 3 - Configure database
+# Module 2 - Starting with the Blog app
+Lets get started with the blog app 
 
-Django stores all the persistent information regarding the website, users and apps in a database.
-Eg. the blogs that we will write will be stored in this database.
-So you need to configure the database details in the django_blog/settings.py file. For the purpose of 
-this tutorial, we will use sqlite3 database which is a simple file-based database. Modify django_blog/settings.py and
-add the details to DATABASES variable as shown below. 
+## Lesson 1 - Creating the app
+To create our application, we are going to use manage.py again.
+
+``Terminal``
+
+	~/django-tutorial-blog-app$ python manage.py startapp blog
+
+This will create a folder *blog* inside our project. The new file structure should look something like this.
+
+   django-tutorial-blog-app
+	├── blog
+	│   ├── __init__.py
+	│   ├── models.py
+	│   ├── tests.py
+	│   ├── views.py
+	├── django_blog
+	│   ├── __init__.py
+	│   ├── settings.py
+	│   ├── urls.py
+	│   ├── wsgi.py
+	└── manage.py
+
+Each Django application will consist of *models.py, tests.py and views.py*. In this lesson, we'll only be dealing with *views.py* which shall be used to serve the content of our application.
+
+> In last lesson, we showed **Hello World** through static file *static/index.html* . To understand how Django works, lets do the same without the static file. 
+
+Now open *views.py* for editing, replace its content with the following code.
+
+``blog/views.py``
+
+	from django.http import HttpResponse
+
+
+	def home(request):
+        return HttpResponse('<h1>Hello World</h1>')
+
+*views.py* contain views. In Django, views & controllers mean the same. A URL is mapped to a view in Django. Here the file contains a home view. 
+
+> Please Note, Python has no explicit ``begin`` or ``end`` and no curly braces where function code starts & stops. The line ``return HttpResponse('<h1>Hello World</h1>')`` is contained inside ``def home(request)`` through indentation. You may read more about Python indentation [here](http://www.diveintopython.net/getting_to_know_python/indenting_code.html)
+
+In last lesson we mapped /statc/index.html to index.html file inside static directory. Similarly we can map any URL, lets say '/' to the home view. So http://localhost:8000/ will show **Hello World**.
+
+Let's see how this works
+
+1. First, ``from django.http import HttpResponse`` imported class HttpResponse, which lives in the django.http module. As name suggest HttpResponse class is needed to generate a response back to the browser when an incoming URL request comes. 
+2. We define `home` function, or `home view`. We can name this anything we want. As long as it is a valid python identifier. Every view function takes *request* as first parameter which contains details about the incoming HTTP Request.
+3. We call HTTPResponse function to display our **Hello World** message.
+
+Now that our view is ready, we need to tell our our django project when to serve this view. If you have been following closely, you can guess. We do this in `django_blog/urls.py`
+
+Now, add the following python code below the comment on line 8
+
+``django_blog/urls.py``
+
+	url(r'^$', 'blog.views.home'),
+
+This shall be enough to tell our django project, to serve the home view in blog application when we visit the root url of the project.
+
+You can test the same by running development server again.
+
+``Terminal``
+
+	~/django-tutorial-blog-app$ python manage.py runserver
+
+That is it, preview your application at http://localhost:8000/ (or simply go to the **App Output** tab in Codelearn Playground) and you shall see the **Hello World** message.
+
+## Lesson 2 - Configure database
+
+We need a database to store the blogs. 
+
+We need to configure the database details in the *django_blog/settings.py* file. For the purpose of this tutorial, we will use sqlite3 database which is a simple file-based database. Modify *django_blog/settings.py* at around line 12. Look for *DATABASES* in the file. Replace the striked out line with the line after it.  
+
+``django_blog/settings.py``
 
 	DATABASES = {
 		'default': {
-			'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-			'NAME': 'C:/workspace/django-blog/django_blog.db',       # Or path to database file if using sqlite3.
+			<del>'ENGINE': 'django.db.backends', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.</del>
+			'ENGINE': 'django.db.backends.sqlite3',
+			<del>'NAME': '',       					 # Or path to database file if using sqlite3.</del>
+			'NAME': '/home/user_1/django-tutorial-blog-app/django-blog/django_blog.db',
 			'USER': '',                      # Not used with sqlite3.
 			'PASSWORD': '',                  # Not used with sqlite3.
 			'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -159,21 +239,30 @@ add the details to DATABASES variable as shown below.
 		}
 	}
 
-Select ENGINE as django.db.backends.sqlite3. NAME should be the full path of the file which would be the actual
-database. If it doesn't already exist django will create it for you. sqlite3 doesn't require user and password so 
-you can leave that blank.
+We selected ENGINE as django.db.backends.sqlite3. NAME should be the full path of the file which would be the actual database.  If it doesn't already exist django will create it for you. 
+
+> Please note, my path has ``/home/user_1`` in it. You can get your path by running ``pwd`` command in the Terminal
+
+``Terminal``
+
+	~/django-tutorial-blog-app$ pwd
+	/home/user_1/django-tutorial-blog-app
+
+Sqlite3 doesn't require user and password so you can leave that blank.
+
 To update the database with relevant application information run the following command
 
-	python manage.py syncdb
+``Terminal``
 
+	~/django-tutorial-blog-app$ python manage.py syncdb
+
+The command syncs the database settings as specified in settings.py to the specified database file which is *django_blog/django_blog.db* in our case.
 	
 ## Lesson 3 - Enable site admin interface
 
-Django provides inbuilt admin interface for every django powered site. This interface can be
-used to control application changes, add new users to the site, etc.
-The admin interface is bundled as a django app (just like our blog app we created above). To enable it,
-modify the django_blog/settings.py file and add django.contrib.admin to the list of installed apps by
-simply uncommenting the corresponding line in INSTALLED_APPS as shown below
+Django provides inbuilt admin interface for every django powered site. This interface can be used to control application changes, add new users to the site, etc.
+
+The admin interface is bundled as a django app (just like our blog app we created above). To enable it, modify the django_blog/settings.py file and add django.contrib.admin to the list of installed apps by simply uncommenting the corresponding line in INSTALLED_APPS as shown below
 
 	INSTALLED_APPS = (
 		'django.contrib.auth',
@@ -488,6 +577,3 @@ Hence, a call to url like *http://localhost:8000/django_blog/2013* would match t
 and the view blog.views.yearwise will be called and passed a year parameter. The same is true for other two views. 
 
 You app is now completely ready. Happy blogging!!
-
-
-
