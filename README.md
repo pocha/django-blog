@@ -1,4 +1,4 @@
-#Getting Started with Django
+#Module 1 - Getting Started with Django
 
 In this tutorial, we will create our first Django Application. It will be a blog creating on Django framework.
 
@@ -36,13 +36,18 @@ This will create a folder *django_blog* with the following structure.
 	
 These files are:
 
-- **The outer django_blog/** directory is just a container for your project. Its name doesn't matter to Django; you can rename it to anything you like.	
+- **The outer django_blog/** directory is just a container for your project. Its name doesn't matter to Django; you can rename it to anything you like. 
 - **manage.py:** A command-line utility that lets you interact with this Django project in various ways. It is a thin wrapper around django-admin.py. So inside a Django project you run ``python manage.py <command>`` instead of ``django-admin.py <command>``.
 - **The inner django_blog/** directory is the actual Python package for your project. Its name is the Python package name you'll use to import modules in your main app(e.g. ``from django_blog import mysite.settings``). What are modules, we will see shortly. 
 - **__init__.py:** An empty file that tells Python that this directory should be considered a Python package.
 - **settings.py:** Django can import apps (what are apps, we will see later). This file contains the list of the apps. The file also contain paths to static directory & similar other configurations.
 - **urls.py:** The file contains mapping of URLs to appropriate Django view (as usual, Django views are introduced later).
 - **wsgi.py:** This will be used, once we want to deploy our application for production. For now, we'll ignore it.
+
+As mentioned in point 1, lets rename **outer django_blog** directory to django-tutorial-blog-app to avoid confusion
+``Terminal``
+
+	~/$ mv django_blog django-tutorial-blog-app
 
 
 Now, that our project is setup. We can test it by running a development server.
@@ -52,46 +57,29 @@ The Django development server is a built-in, lightweight Web server you can use 
 Get inside the Django project & start the server
 ``Terminal``
 
-	~/$ cd django_blog
-	~/django_blog$ python manage.py runserver
+	~/$ cd django-tutorial-blog-app
+	~/django-tutorial-blog-app$ python manage.py runserver
 	
 This will run a development server on port 8000, if you have Django installed on your PC. You can view the app at *http://localhost:8000*.  In our case, simply Reload the **App Output** tab.
 
 If everything goes right, you'll see a **"Welcome to Django"** page, in pleasant, light-blue pastel. It worked!
 
-## Lesson 2 - Creating the app
-In this module, we'll create our first Django Application that will show a **Hello World** message instead of Weclome to Django.
+> Command to exit the server should be included here 
 
-To create our application, we'll run this command inside our Django project in the console.
-	cd django_blog
-	python manage.py startapp blog
+## Lesson 2 - Hello World
+In this module, we'll create our first Django Application that will show a **Hello World** message instead of Welcome to Django.
 
-This will create a folder *blog* inside our project. The new file structure should look something like this.
+We will show **Hello World** by creating a static page. For that, we do not need to use any of the files generated above. 
 
-    django_blog
-	├── blog
-	│   ├── __init__.py
-	│   ├── models.py
-	│   ├── tests.py
-	│   ├── views.py
-	├── django_blog
-	│   ├── __init__.py
-	│   ├── settings.py
-	│   ├── urls.py
-	│   ├── wsgi.py
-	└── manage.py
-	
-Each Django application will consist of *models.py, tests.py and views.py*. For this module we'll only be dealing with *views.py* which shall be used to serve the content of our application.
+To serve a simple static page from django, create a folder named static. Create a file named index.html inside the static folder.
+``Terminal``
 
-To serve a simple static page from django, create a folder in djang_blog directory named static. Create a file named index.html inside
-the static folder such that the directory structure now looks like,
+	~/django-tutorial-blog-app$ mkdir static
+	~/django-tutorial-blog-app$ touch static/index.html
 
-    django_blog
-	├── blog
-	│   ├── __init__.py
-	│   ├── models.py
-	│   ├── tests.py
-	│   ├── views.py
+The directory structure now looks like,
+
+    django-tutorial-blog-app
 	├── django_blog
 	│   ├── __init__.py
 	│   ├── settings.py
@@ -102,15 +90,23 @@ the static folder such that the directory structure now looks like,
 	└── manage.py
 	
 Edit index.html and add the following html content to it
+``static/index.html``
 
 	<!DOCTYPE html>
 	<html>
 	Hello world!!
 	</html>
 	
-Edit the django_blog/django_blog/setting.py file and add the static directory to STATICFILES_DIRS which is 
-django's list of directories which it searches to serve static files. Make sure that the STATIC_URL variable
-in settings.py is set to '/static/'
+Edit the *django-tutorial-blog-app/settings.py* file and add the static directory to **STATICFILES_DIRS** which is django's list of directories which it searches to serve static files. 
+You need absolute path to the static directory to put inside **STATICFILES_DIRS**
+``Terminal``
+	
+	~/django-tutorial-blog-app$ pwd
+
+You will see something like */home/user_1/django-tutorial-blog-app*. The absolute path to the static directory will be */home/user_1/django-tutorial-blog-app/static*.
+``pwd`` is a linux command that gets you the path of your current directory. 
+
+``django-tutorial-blog-app/settings.py``
 
 	# URL prefix for static files.
 	# Example: "http://media.lawrence.com/static/"
@@ -121,24 +117,21 @@ in settings.py is set to '/static/'
 		# Put strings here, like "/home/html/static" or "C:/www/django/static".
 		# Always use forward slashes, even on Windows.
 		# Don't forget to use absolute paths, not relative paths.
-		'C:/workspace/django-blog/static',
+		'/home/user_1/django-tutorial-blog-app/static',
 	)
 
-If STATICFILES_DIRS contains a single location as shown above, don't for to add a comma(,) at the end as shown.
-[STATICFILES_DIRS is python tuple datatype and the way to declare a tuple with a single element is to add a comma after it.]
+*Even if STATICFILES_DIRS contains a single location as shown above, don't forget to add a comma(,) at the end as shown.*
+[**STATICFILES_DIRS** is python tuple datatype and the way to declare a tuple with a single element is to add a comma after it.]
 
-This shall be enough to tell our django project, to serve the static files from django_blog/static directory.
+You can test the settngs so far by running development server again.
 
-You can test the same by running development server again.
+	~/django-tutorial-blog-app$ python manage.py runserver
 
-	python manage.py runserver
+Enter location *http://localhost:8000/static/index.html* in your PC to view the page. Here you can simply enter *static/index.html* in the input box inside **App Output** & hit 'Go' to view the output. 
 
-Enter location http://localhost:8000/static/index.html
-
-That is it, preview your application and you shall see the **Hello World** message.
 Note that you are accessing the file by adding static/ in the url which tell django to serve static files.
 
-That's it for this module. We'll get into models and get started with blog views in the next module.
+> Dont forget to shut down your server by pressing __ once you are done
 
 ## Lesson 3 - Configure database
 
