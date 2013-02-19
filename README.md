@@ -23,7 +23,7 @@ To create your first Django project, run the following command
 
 	$ django-admin.py startproject django_blog
 	
-This will create a folder *django_blog* with the following structure. Here, *django_blog* is the name of our project.
+This will create a folder *django_blog* with the following structure.
 
 
     django_blog	
@@ -37,14 +37,13 @@ This will create a folder *django_blog* with the following structure. Here, *dja
 These files are:
 
 - **The outer django_blog/** directory is just a container for your project. Its name doesn't matter to Django; you can rename it to anything you like.	
-- **manage.py:** A command-line utility that lets you interact with this Django project in various ways. It is a thin wrapper around django-admin.py. So inside a Django project you can run manage.py instead of django-admin.py.
-- **The inner django_blog/** directory is the actual Python package for your project. Its name is the Python package name you'll need to use to import anything inside it (e.g. import mysite.settings).
-- **django_blog/__init__.py:** An empty file that tells Python that this directory should be considered a Python package.
--  **django_blog/settings.py:** Settings/configuration for this Django project. Django settings will tell you all about how settings work.
-- **django_blog/urls.py:** It handles the URL declarations for the Django project. This will simply map URL patterns (simple regular expressions) to Python functions (your views).
-- **django_blog/wsgi.py:** An entry-point for WSGI-compatible webservers to serve your project. This will be used, once we want to deploy our application for production. For now, we'll ignore it.
+- **manage.py:** A command-line utility that lets you interact with this Django project in various ways. It is a thin wrapper around django-admin.py. So inside a Django project you run ``python manage.py <command>`` instead of ``django-admin.py <command>``.
+- **The inner django_blog/** directory is the actual Python package for your project. Its name is the Python package name you'll use to import modules in your main app(e.g. ``from django_blog import mysite.settings``). What are modules, we will see shortly. 
+- **__init__.py:** An empty file that tells Python that this directory should be considered a Python package.
+- **settings.py:** Django can import apps (what are apps, we will see later). This file contains the list of the apps. The file also contain paths to static directory & similar other configurations.
+- **urls.py:** The file contains mapping of URLs to appropriate Django view (as usual, Django views are introduced later).
+- **django_blog/wsgi.py:** This will be used, once we want to deploy our application for production. For now, we'll ignore it.
 
-[ *import* is a python command to access symbols within a script]
 
 Now, that our project is setup. We can test it by running a development server.
 
@@ -54,7 +53,9 @@ Run this command inside Django project
 
 	python manage.py runserver
 	
-This will run a development server on port 8000. If you preview your app now you'll see a **"Welcome to Django"** page, in pleasant, light-blue pastel. It worked!
+This will run a development server on port 8000, if you have Django installed on your PC. In our case, simply Reload the **App Output** tab.
+
+If everything goes right, you'll see a **"Welcome to Django"** page, in pleasant, light-blue pastel. It worked!
 
 ## Lesson 2 - Creating the app
 In this module, we'll create our first Django Application that will show a **Hello World** message instead of Weclome to Django.
